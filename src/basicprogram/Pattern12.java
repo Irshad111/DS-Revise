@@ -1,0 +1,49 @@
+package basicprogram;
+
+import java.util.Scanner;
+
+public class Pattern12 {
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		
+		int nsp=n-1;
+		int nst=1;
+		// row
+		int row=1;
+		while(row<=n) {
+			int val=1;
+			// space work
+			
+			for(int csp=1;csp<=nsp;csp++) {
+				System.out.print(" ");
+			}
+			
+			// star work
+
+			for(int cst=1;cst<=nst;cst++) {
+				System.out.print(val);
+				if(cst<=nst/2)
+					val++;
+				else
+					val--;
+			}
+			// prepration for next row
+			System.out.println();
+			row=row+1;
+			nsp=nsp-1;
+			nst=nst+2;
+
+			
+		}
+
+	}
+
+
+
+
+
+}
