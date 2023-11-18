@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class DP {
 
+
+    //a. based on fib
     // using top -down
     //1.
     public static int fiboncciTD(int n, int[] strg) {
@@ -44,7 +46,7 @@ public class DP {
         return strg[1];
     }
 
-    // 2.
+    // a.1 how many ways are possible to reach to end by throwing the dice
     public static int BoardPathTD(int curr, int end, int[] strg) {
         if (curr == end) {
             return 1;
@@ -93,7 +95,7 @@ public class DP {
         return strg[0];
     }
 
-    // 3.
+    // b maze path :- hom many diffrent no of ways are there to reach from (0,0) to (er,ec)
     public static int mazePathTD(int cr, int cc, int er, int ec, int[][] strg) {
         if (cc == ec && cr == er) {
             return 1;
@@ -110,56 +112,52 @@ public class DP {
         return h + v;
 
     }
-
-    public static int mazePathBU(int er, int ec) {
-        int strg[][] = new int[er + 1][ec + 1];
-        for (int row = er; row >= 0; row--) {
-            for (int col = ec; col >= 0; col--) {
-                if (col == ec || row == er) {
+    public static int mazePathBU(int m, int n) {
+        int strg[][] = new int[m][n];
+        for(int row = 0; row < m; row++){
+            for(int col = 0; col < n; col++){
+                if(row==0 || col==0){
                     strg[row][col] = 1;
-                } else {
-                    strg[row][col] = strg[row + 1][col] + strg[row][col + 1];
+                }else{
+                    strg[row][col] = strg[row-1][col] + strg[row][col-1];
                 }
             }
         }
-        return strg[0][0];
-
+        return strg[m-1][n-1];
     }
 
-    public static int mazePathBUSE(int er, int ec) {
-        int strg[] = new int[ec + 1];
+    public static int mazePathBUSE(int m, int n) {
+        int strg[] = new int[n];
         Arrays.fill(strg, 1);
-        for (int slide = er - 1; slide >= 0; slide--) {
-            for (int col = ec; col >= 0; col--) {
-                if (col == ec) {
+        for(int row = 1; row < m; row++){
+            for(int col = 0; col < n; col++){
+                if(col == 0){
                     strg[col] = 1;
-                } else {
-                    strg[col] = strg[col] + strg[col + 1];
+                }else{
+                    strg[col] = strg[col-1] + strg[col];
                 }
             }
         }
-        return strg[0];
-
+        return strg[n-1];
     }
-
-    public static int mazePathDigBUSE(int er, int ec) {
-        int strg[] = new int[ec + 1];
+    // b. 1 can take move in forward digonal
+    public static int mazePathDigBUSE(int m, int n) {
+        int strg[] = new int[n];
         Arrays.fill(strg, 1);
-        int dig = 0;
-        for (int slide = er - 1; slide >= 0; slide--) {
-            for (int col = ec; col >= 0; col--) {
-                if (col == ec) {
-                    strg[col] = 1;
+        int dig=0;
+        for(int row = 1; row < m; row++){
+            for(int col = 0; col < n; col++){
+                if(col == 0){
+                    strg[col]=1;
                     dig = 1;
-                } else {
-                    int sum = strg[col] + strg[col + 1] + dig;
+                }else{
+                    int sum = strg[col-1] + strg[col] + dig;
                     dig = strg[col];
                     strg[col] = sum;
                 }
             }
         }
-        return strg[0];
-
+        return strg[n-1];
     }
 }
 
