@@ -159,5 +159,32 @@ public class DP {
         }
         return strg[n-1];
     }
+    // b. 2
+    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if(obstacleGrid[0][0] == 1 || obstacleGrid[m-1][n-1] == 1){
+            return 0;
+        }
+        int [][] strg = new int[m][n];
+
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(obstacleGrid[i][j] == 0){
+                    if(i == 0 && j == 0){
+                        strg[i][j] = 1;
+                    }else if(i == 0){
+                        strg[i][j] = strg[i][j-1];
+                    }else if(j == 0){
+                        strg[i][j] = strg[i-1][j];
+                    }else{
+                        strg[i][j] = strg[i-1][j] + strg[i][j-1];
+                    }
+                }
+
+            }
+        }
+        return strg[m-1][n-1];
+    }
 }
 
