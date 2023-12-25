@@ -3,23 +3,32 @@ package DP;
 import Tree.BTree;
 import Tree.TreeQ;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DynamicProgramming {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int N = 3;
-		int W = 4;
-		int values[] = { 1, 2, 3 };
-		int weight[] = { 4, 5, 1 };
-		System.out.println(knapSackRec(W, weight, values, N));
-		System.out.println(knapSackTD(W, weight, values, N, new int[N + 1][W + 1]));
+		int N = 35;
+		String S= "T|F^F&T|F^F^F^T|T&T^T|F^T^F&F^T|T^F";
+//		int W = 4;
+//		int values[] = { 1, 2, 3 };
+//		int weight[] = { 4, 5, 1 };
+//		System.out.println(knapSackRec(W, weight, values, N));
+//		System.out.println(knapSackTD(W, weight, values, N, new int[N + 1][W + 1]));
+//
+//		System.out.println(knapSack(W, weight, values, N));
+//		System.out.println(printlcs("abcded", "aabcede", 6, 7));
+//		System.out.println(lpsubstring("aaaabbaa",8));
+//		System.out.println(printSCSS("hello","geek",5,4));
+		System.out.println("helllo");
+		int arr[]={1,2,3,4,5};
+		// add 1 in at 0 and n th index
+		System.out.println(burstingballoon(arr,0,arr.length-1));
+		System.out.println();
 
-		System.out.println(knapSack(W, weight, values, N));
-		System.out.println(printlcs("abcded", "aabcede", 6, 7));
-		System.out.println(lpsubstring("aaaabbaa",8));
-		System.out.println(printSCSS("hello","geek",5,4));
 
 	}
 
@@ -613,6 +622,98 @@ public class DynamicProgramming {
 	}
 
 	// d.2 Evaluation expression to True (# of ways)/boolean parenthesization
+	static int countWaysRec(String s, int i, int j, boolean isTrue){
+		if(i > j){
+			return 0;
+		}
+		if(i == j){
+			if(isTrue){
+				return s.charAt(i) == 'T' ? 1 : 0;
+			}else{
+				return s.charAt(i) == 'F' ? 1 : 0;
+			}
+		}
+
+		int ans=0;
+		for(int k = i + 1; k <= j-1; k += 2){
+			int l_T = countWaysRec(s, i, k-1, true);
+			int l_F = countWaysRec(s, i, k-1, false);
+			int r_T = countWaysRec(s, k+1, j, true);
+			int r_F = countWaysRec(s, k+1, j, false);
+
+			if(s.charAt(k) == '&'){
+				if(isTrue){
+					ans += l_T * r_T;
+				}else {
+					ans += l_T * r_F + l_F * r_T + l_F * r_F;
+				}
+			}else if (s.charAt(k) == '|'){
+				if(isTrue){
+					ans += l_T * r_F + l_F * r_T + l_T * r_T;
+				}else {
+					ans += l_F * r_F;
+				}
+			} else if (s.charAt(k) == '^') {
+				if(isTrue){
+					ans += l_T * r_F + l_F * r_T ;
+				}else {
+					ans += l_F * r_F + l_T * r_T ;
+				}
+			}
+
+		}
+
+		return ans;
+
+	}
+	static int countWaysTD(String s, int i, int j, boolean isTrue, HashMap<String, Integer> map){
+		if(i > j){
+			return 0;
+		}
+		if(i == j){
+			if(isTrue){
+				return s.charAt(i) == 'T' ? 1 : 0;
+			}else{
+				return s.charAt(i) == 'F' ? 1 : 0;
+			}
+		}
+		String key=i+ "_" + j +"_" + isTrue;
+		if(map.containsKey(key)){
+			return map.get(key);
+		}
+
+		int ans=0;
+		for(int k = i + 1; k <= j-1; k += 2){
+			int l_T = countWaysTD(s, i, k-1, true, map);
+			int l_F = countWaysTD(s, i, k-1, false, map);
+			int r_T = countWaysTD(s, k+1, j, true, map);
+			int r_F = countWaysTD(s, k+1, j, false, map);
+
+			if(s.charAt(k) == '&'){
+				if(isTrue){
+					ans += l_T * r_T;
+				}else {
+					ans += l_T * r_F + l_F * r_T + l_F * r_F;
+				}
+			}else if (s.charAt(k) == '|'){
+				if(isTrue){
+					ans += l_T * r_F + l_F * r_T + l_T * r_T;
+				}else {
+					ans += l_F * r_F;
+				}
+			} else if (s.charAt(k) == '^') {
+				if(isTrue){
+					ans += l_T * r_F + l_F * r_T ;
+				}else {
+					ans += l_F * r_F + l_T * r_T ;
+				}
+			}
+
+		}
+		map.put(key, ans);
+		return ans;
+
+	}
 
 	// d.3 scrambled string
 	
@@ -675,6 +776,68 @@ public class DynamicProgramming {
 			min=Math.min(min,temp);
 		}
 		return strg[e][f]=min;
+	}
+	// d.5
+	public static int burstingballoon(int arr[]){
+		int temp[] = new int[arr.length +2];
+		temp[0]=temp[temp.length -1]=1;
+		for(int i=0;i<arr.length;i++){
+			temp[i+1]=arr[i];
+		}
+		return burstingballoonTD(temp,0,temp.length-1, new int[temp.length][temp.length]);
+	}
+	public static int burstingballoonRec(int [] arr, int i, int j){
+		if(i>j){
+			return 0;
+		}
+		int max=0;
+		for(int k=i+1; k<=j-1; k++){
+			int temp=arr[i]*arr[k]*arr[j] +burstingballoonRec(arr, i, k) +burstingballoonRec(arr, k, j);
+			max=Math.max(temp,max);
+		}
+		return max;
+	}
+	public static int burstingballoonTD(int [] arr, int i, int j, int strg[][]){
+		if(i>j){
+			return 0;
+		}
+		if(strg[i][j]!=0){
+			return strg[i][j];
+		}
+		int max=0;
+		for(int k=i+1; k<=j-1; k++){
+			int temp=arr[i]*arr[k]*arr[j] +burstingballoonTD(arr, i, k, strg) +burstingballoonTD(arr, k, j, strg);
+			max=Math.max(temp,max);
+		}
+		return strg[i][j] = max;
+	}
+
+	public static int burstingballoonTDOptim(int [] arr, int i, int j, int strg[][]){
+		if(i>j){
+			return 0;
+		}
+		if(strg[i][j]!=0){
+			return strg[i][j];
+		}
+		int max=0;
+		for(int k=i+1; k<=j-1; k++){
+			int left=0,right=0;
+			if(strg[i][k]!=0){
+				left=strg[i][k];
+			}else{
+				left=burstingballoonTDOptim(arr, i, k, strg);
+				strg[i][k]=left;
+			}
+			if(strg[k][j]!=0){
+				right=strg[k][j];
+			}else{
+				right=burstingballoonTDOptim(arr, k, j, strg);
+				strg[k][j]=right;
+			}
+			int temp=arr[i]*arr[k]*arr[j] +left+right;
+			max=Math.max(temp,max);
+		}
+		return strg[i][j] = max;
 	}
 
 	// DP on tree
