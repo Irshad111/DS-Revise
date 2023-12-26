@@ -5,6 +5,7 @@ import Tree.TreeQ;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class DynamicProgramming {
@@ -20,13 +21,13 @@ public class DynamicProgramming {
 //		System.out.println(knapSackTD(W, weight, values, N, new int[N + 1][W + 1]));
 //
 //		System.out.println(knapSack(W, weight, values, N));
-//		System.out.println(printlcs("abcded", "aabcede", 6, 7));
+	System.out.println(printlcs("ecfbefdcfca", "badfcbebbf", 11, 10));
 //		System.out.println(lpsubstring("aaaabbaa",8));
 //		System.out.println(printSCSS("hello","geek",5,4));
 		System.out.println("helllo");
 		int arr[]={1,2,3,4,5};
 		// add 1 in at 0 and n th index
-		System.out.println(burstingballoon(arr,0,arr.length-1));
+		System.out.println(burstingballoon(arr));
 		System.out.println();
 
 
@@ -889,6 +890,114 @@ public class DynamicProgramming {
 		max = Math.max(ans, max);
 		return temp;
 	}
+	// f.1 wine problem
+	public static int wineProblem(int[] price, int i, int j, int yr) {
+		if (i == j) {
+			return price[i] * yr;
+		}
+
+		int fc = wineProblem(price, i + 1, j, yr + 1) + price[i] * yr;
+		int sc = wineProblem(price, i, j - 1, yr + 1) + price[j] * yr;
+		int res = Math.max(fc, sc);
+		return res;
+
+	}
+	public static int wineProblemTD(int[] price, int i, int j, int yr, int strg[][]) {
+		if (i == j) {
+			return price[i] * yr;
+		}
+		if(strg[i][j]!=0){
+			return strg[i][j];
+		}
+
+		int fc = wineProblem(price, i + 1, j, yr + 1) + price[i] * yr;
+		int sc = wineProblem(price, i, j - 1, yr + 1) + price[j] * yr;
+		int res = Math.max(fc, sc);
+		return strg[i][j]=res;
+
+	}
+	// g .1 edit distance
+	public static int editDistanceRec(String s1, String s2, int l1, int l2) {
+		if (l1 == 0 || l2 == 0)
+			return Math.max(l1, l2);
+		if (s1.charAt(l1 - 1) == s2.charAt(l2 - 1))
+			return editDistanceRec(s1, s2, l1 - 1, l2 - 1);
+		else
+			return Math.min(Math.min(editDistanceRec(s1, s2, l1 - 1, l2), editDistanceRec(s1, s2, l1, l2 - 1)),
+					editDistanceRec(s1, s2, l1 - 1, l2 - 1)) + 1;
+	}
+
+	public static int editDistanceTD(String s1, String s2, int l1, int l2, int[][] strg) {
+		if (l1 == 0 || l2 == 0)
+			return Math.max(l1, l2);
+		if (strg[l1][l2] != 0)
+			return strg[l1][l2];
+		if (s1.charAt(l1 - 1) == s2.charAt(l2 - 1))
+			return strg[l1][l2] = editDistanceTD(s1, s2, l1 - 1, l2 - 1, strg);
+		else
+			return strg[l1][l2] = Math.min(Math.min(editDistanceTD(s1, s2, l1 - 1, l2, strg), editDistanceTD(s1, s2, l1, l2 - 1, strg)),
+					editDistanceTD(s1, s2, l1 - 1, l2 - 1, strg)) + 1;
+	}
+
+	public static int editDistance(String s1, String s2, int l1, int l2) {
+		int strg[][] = new int[l1 + 1][l2 + 1];
+		for (int i = 0; i <= l1; i++) {
+			for (int j = 0; j <= l2; j++) {
+				if (i == 0 || j == 0) {
+					strg[i][j] = Math.max(i,j);
+					continue;
+				}
+				if (s1.charAt(i - 1) == s2.charAt(j - 1))
+					strg[i][j] = strg[i - 1][j - 1];
+				else
+					strg[i][j] = Math.min(Math.min(strg[i - 1][j], strg[i][j - 1]), strg[i-1][j-1]) + 1;
+
+			}
+		}
+		return strg[l1][l2];
+
+	}
+
+	// h.1 LIS
+	public static int LIS(int[] arr) {
+		int n = arr.length;
+		int[] lis = new int[n];
+		Arrays.fill(lis, 1);
+
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j < i; j++) {
+				if (arr[i] > arr[j]) {
+					lis[i] = Math.max(lis[i] ,lis[j] + 1);
+				}
+			}
+		}
+		int max=0;
+		for(int i = 0; i < n; i++){
+			max = Math.max(max, lis[i]);
+		}
+		return max;
+	}
+   // h.2
+   public static int weightedJob(Job[] jobs) {
+	   int[] T = new int[jobs.length];
+	   Arrays.sort(jobs, (x,y)-> x.finishtime-y.finishtime);
+	   for(int i = 0; i<jobs.length; i++){
+		   T[i] = jobs[i].profit;
+	   }
+	   for (int i = 1; i < jobs.length; i++) {
+		   for (int j = 0; j < i; j++) {
+			   if (jobs[j].finishtime <= jobs[i].starttime) {
+				   T[i] = Math.max(T[i], T[j] + jobs[i].profit);
+			   }
+		   }
+	   }
+	   int max = Integer.MIN_VALUE;
+	   for (int val : T) {
+		   max = Math.max(val, max);
+	   }
+	   return max;
+
+   }
 
 
 
@@ -899,6 +1008,17 @@ public class DynamicProgramming {
 
 
 
+	class Job {
+		int starttime;
+		int finishtime;
+		int profit;
+
+		Job(int s, int f, int p) {
+			this.finishtime = f;
+			this.starttime = s;
+			this.profit = p;
+		}
+	}
 
 
 
