@@ -2,6 +2,7 @@ package DP;
 
 import Tree.BTree;
 import Tree.TreeQ;
+import stack.StackClient;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -998,6 +999,221 @@ public class DynamicProgramming {
 	   return max;
 
    }
+   // h 3.
+   public static int longestBitonicSubSeq(int arr[]) {
+	   int lis[] = new int[arr.length];
+	   int lds[] = new int[arr.length];
+	   for (int i = 0; i < arr.length; i++) {
+		   lis[i] = 1;
+		   lds[i] = 1;
+	   }
+	   for (int i = 1; i < arr.length; i++) {
+		   for (int j = 0; j < i; j++) {
+			   if (arr[j] < arr[i])
+				   lis[i] = Math.max(lis[i], lis[j] + 1);
+		   }
+	   }
+	   for (int i = arr.length - 2; i >= 0; i--) {
+		   for (int j = arr.length - 1; j > i; j--) {
+			   if (arr[j] < arr[i])
+				   lds[i] = Math.max(lds[i], lds[j] + 1);
+		   }
+	   }
+	   int max = Integer.MIN_VALUE;
+	   for (int i = 0; i < arr.length; i++) {
+		   max = Math.max(max, lis[i] + lds[i] - 1);
+	   }
+	   return max;
+   }
+
+	// i .1 Kadane's Algorithm is a linear time algorithm used to find the maximum subarray sum in a given array.
+	// A subarray is defined as a contiguous subset of elements within the array.
+
+	public static int kadansAlgo(int arr[]) {
+		int curr_max = arr[0], global_max = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			curr_max = Math.max(arr[i], arr[i] + curr_max);
+			if (curr_max > global_max) {
+				global_max = curr_max;
+			}
+		}
+		return global_max;
+	}
+
+	// i.2 with start and end index
+	public static int[] kadans(int arr[]) {
+		int curr_max = arr[0];
+		int[] result = new int[3];
+
+		result[0] = arr[0];// for global max
+		result[1] = 0;// start index
+		result[2] = 0;// end index
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] + curr_max < arr[i]) {
+				curr_max = arr[i];
+				result[1] = i;
+			} else {
+				curr_max = curr_max + arr[i];
+			}
+			// curr_max=Math.max(arr[i],arr[i]+curr_max); bcz u want start index
+			if (curr_max >= result[0]) {
+				result[0] = curr_max;
+				result[2] = i;
+			}
+		}
+
+		return result;
+	}
+
+	// i.3 Find maximum sum rectangle in 2D matrix.
+
+	public static void maxSubMatrix(int mat[][]) {
+		int maxsum = Integer.MIN_VALUE;
+		int maxleft = -1;
+		int maxright = -1;
+		int maxup = -1;
+		int maxdown = -1;
+
+		for (int left_col = 0; left_col < mat[0].length; left_col++) {
+			int strg[] = new int[mat.length];
+			for (int right_col = left_col; right_col < mat[0].length; right_col++) {
+				for (int row = 0; row < mat.length; row++) {
+					strg[row] += mat[row][right_col];
+				}
+				int[] result = kadans(strg);
+				if (result[0] > maxsum) {
+					maxsum = result[0];
+					maxleft = left_col;
+					maxright = right_col;
+					maxup = result[1];
+					maxdown = result[2];
+				}
+
+			}
+		}
+		System.out.println("left=" + maxleft + " right=" + maxright);
+		System.out.println("bottom=" + maxdown + " up=" + maxup);
+		System.out.println("max sum=" + maxsum);
+
+	}
+	// i.4
+	// 1) Construct a sum matrix S[R][C] for the given M[R][C].
+	// a) Copy first row and first columns as it is from M[][] to S[][]
+	// b) For other entries, use following expressions to construct S[][]
+	// If M[i][j] is 1 then
+	// S[i][j] = min(S[i][j-1], S[i-1][j], S[i-1][j-1]) + 1
+	// Else /*If M[i][j] is 0*/
+	// S[i][j] = 0
+	// 2) Find the maximum entry in S[R][C]
+	// 3) Using the value and coordinates of maximum entry in S[i], print
+	// sub-matrix of M[][]
+
+	public static int maxiSizeSqureSubMatrixOf1s(int mat[][]) {
+		int max = 0;
+		int strg[][] = new int[mat.length][mat[0].length];
+		// copy first row
+		for (int col = 0; col < mat[0].length; col++) {
+			strg[0][col] = mat[0][col];
+			if (strg[0][col] == 1) {
+				max = 1;
+			}
+		}
+		// copy first column
+		for (int row = 0; row < mat.length; row++) {
+			strg[row][0] = mat[row][0];
+			if (strg[row][0] == 1) {
+				max = 1;
+			}
+		}
+		// other
+		for (int row = 1; row < mat.length; row++) {
+			for (int col = 1; col < mat[0].length; col++) {
+				if (mat[row][col] == 0) {
+					strg[row][col] = 0;
+				} else {
+					strg[row][col] = Math.min(Math.min(strg[row][col - 1], strg[row - 1][col]), strg[row - 1][col - 1])
+							+ 1;
+					if (strg[row][col] > max) {
+						max = strg[row][col];
+					}
+				}
+			}
+		}
+		return max;
+	}
+	// j.1
+	/**
+	 * This is slow method but easier to understand. Time complexity is O(k * number
+	 * of days ^ 2) T[i][j] = max(T[i][j-1], max(prices[j] - prices[m] + T[i-1][m]))
+	 * where m is 0...j-1
+	 */
+	public static int stockBuySell(int[] price, int k) {
+		if (k == 0 || price.length == 0) {
+			return 0;
+		}
+		if (k >= price.length) {
+			return localMin(price, k);
+		}
+		int strg[][] = new int[k + 1][price.length];
+		for (int i = 1; i < strg.length; i++) {
+			for (int j = 1; j < strg[0].length; j++) {
+				int maxvalue = Integer.MIN_VALUE;
+				for (int m = 0; m < j; m++) {
+					maxvalue = Math.max(maxvalue, price[j] - price[m] + strg[i - 1][m]);
+				}
+				strg[i][j] = Math.max(strg[i][j - 1], maxvalue);
+			}
+		}
+		return strg[k][price.length - 1];
+
+	}
+
+	public static int localMin(int[] price, int k) {
+		int profit = 0;
+		int localmin = price[0];
+		for (int i = 1; i < price.length; i++) {
+			if (price[i - 1] >= price[i]) {
+				localmin = price[i];
+			} else {
+				profit += price[i] - localmin;
+				localmin = price[i];
+			}
+		}
+		return profit;
+	}
+
+	/**
+	 * This is faster method which does optimization on slower method Time
+	 * complexity here is O(K * number of days)
+	 *
+	 * Formula is T[i][j] = max(T[i][j-1], prices[j] + maxDiff) maxDiff =
+	 * max(maxDiff, T[i-1][j] - prices[j])
+	 */
+	/*
+	 * Scanner sc=new Scanner(System.in); int t=sc.nextInt(); while(t-->0){ int
+	 * k=sc.nextInt(); int n=sc.nextInt(); int arr[]=new int[n]; for(int
+	 * i=0;i<n;i++){ arr[i]=sc.nextInt(); } System.out.println(); }
+	 */
+	public static int stockBuySellfaster(int[] price, int k) {
+		if (k == 0 || price.length == 0) {
+			return 0;
+		}
+		if (k >= price.length) {
+			return localMin(price, k);
+		}
+		int strg[][] = new int[k + 1][price.length];
+		for (int i = 1; i < strg.length; i++) {
+			int maxdiff = Integer.MIN_VALUE;
+			for (int j = 1; j < strg[0].length; j++) {
+				maxdiff = Math.max(maxdiff, strg[i - 1][j - 1] - price[j - 1]);
+				strg[i][j] = Math.max(strg[i][j - 1], maxdiff + price[j]);
+
+			}
+		}
+		return strg[k][price.length - 1];
+
+	}
+
 
 
 
