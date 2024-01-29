@@ -41,7 +41,7 @@ public class DynamicProgramming {
 
 		if (wt[n - 1] <= W)
 			return Math.max(val[n - 1] + knapSackRec(W - wt[n - 1], wt, val, n - 1), knapSackRec(W, wt, val, n - 1));
-		else
+		else if( wt[n - 1] > W)
 			return knapSackRec(W, wt, val, n - 1);
 	}
 
@@ -53,7 +53,7 @@ public class DynamicProgramming {
 		if (wt[n - 1] <= W)
 			strg[n][W] = Math.max(val[n - 1] + knapSackTD(W - wt[n - 1], wt, val, n - 1, strg),
 					knapSackTD(W, wt, val, n - 1, strg));
-		else
+		else if( wt[n - 1] > W)
 			strg[n][W] = knapSackTD(W, wt, val, n - 1, strg);
 
 		return strg[n][W];
@@ -70,7 +70,7 @@ public class DynamicProgramming {
 				}
 				if (wt[i - 1] <= j) {
 					strg[i][j] = Math.max(val[i - 1] + strg[i - 1][j - wt[i - 1]], strg[i - 1][j]);
-				} else {
+				} else if (wt[i - 1] > j){
 					strg[i][j] = strg[i - 1][j];
 
 				}
