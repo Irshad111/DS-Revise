@@ -41,7 +41,7 @@ public class DynamicProgramming {
 
 		if (wt[n - 1] <= W)
 			return Math.max(val[n - 1] + knapSackRec(W - wt[n - 1], wt, val, n - 1), knapSackRec(W, wt, val, n - 1));
-		else if( wt[n - 1] > W)
+		else //else if( wt[n - 1] > W)
 			return knapSackRec(W, wt, val, n - 1);
 	}
 
@@ -89,7 +89,7 @@ public class DynamicProgramming {
 			for (int j = 1; j <= sum; j++) {
 				if (arr[i - 1] <= j) {
 					strg[i][j] = strg[i - 1][j - arr[i - 1]] || strg[i - 1][j];
-				} else {
+				} else if(arr[i - 1] > j){
 					strg[i][j] = strg[i - 1][j];
 
 				}
@@ -191,7 +191,7 @@ public class DynamicProgramming {
 				}
 				if (wt[i - 1] <= j) {
 					strg[i][j] = Math.max(val[i - 1] + strg[i][j - wt[i - 1]], strg[i - 1][j]);
-				} else {
+				} else if (wt[i - 1] > j){
 					strg[i][j] = strg[i - 1][j];
 
 				}
@@ -211,7 +211,7 @@ public class DynamicProgramming {
 				}
 				if (length[i - 1] <= j) {
 					strg[i][j] = Math.max(price[i - 1] + strg[i][j - length[i - 1]], strg[i - 1][j]);
-				} else {
+				} else if(length[i - 1] > j) {
 					strg[i][j] = strg[i - 1][j];
 
 				}
@@ -237,7 +237,7 @@ public class DynamicProgramming {
 				}
 				if (price[i - 1] <= j) {
 					strg[i][j] = strg[i][j - price[i - 1]] + strg[i - 1][j];
-				} else {
+				} else if(price[i - 1] > j) {
 					strg[i][j] = strg[i - 1][j];
 
 				}
@@ -269,7 +269,7 @@ public class DynamicProgramming {
 			for (int j = 1; j <= sum; j++) {
 				if (price[i - 1] <= j) {
 					strg[i][j] = Math.min(1 + strg[i][j - price[i - 1]], strg[i - 1][j]);
-				} else {
+				} else if(price[i -1] > j) {
 					strg[i][j] = strg[i - 1][j];
 
 				}
