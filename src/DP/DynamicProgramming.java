@@ -1,10 +1,5 @@
 package DP;
 
-import Tree.BTree;
-import Tree.TreeQ;
-import stack.StackClient;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1152,7 +1147,7 @@ public class DynamicProgramming {
 			return 0;
 		}
 		if (k >= price.length) {
-			return localMin(price, k);
+			return profit(price, k);
 		}
 		int strg[][] = new int[k + 1][price.length];
 		for (int i = 1; i < strg.length; i++) {
@@ -1168,15 +1163,11 @@ public class DynamicProgramming {
 
 	}
 
-	public static int localMin(int[] price, int k) {
+	public static int profit(int[] price, int k) {
 		int profit = 0;
-		int localmin = price[0];
 		for (int i = 1; i < price.length; i++) {
-			if (price[i - 1] >= price[i]) {
-				localmin = price[i];
-			} else {
-				profit += price[i] - localmin;
-				localmin = price[i];
+			if(price[i] > price[i-1]){
+				profit+= price[i] - price[i-1];
 			}
 		}
 		return profit;
@@ -1199,7 +1190,7 @@ public class DynamicProgramming {
 			return 0;
 		}
 		if (k >= price.length) {
-			return localMin(price, k);
+			return profit(price, k);
 		}
 		int strg[][] = new int[k + 1][price.length];
 		for (int i = 1; i < strg.length; i++) {
