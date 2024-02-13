@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class PrimsAlgo {
+    //Prim’s algorithm is a greedy algorithm. Prim’s algorithm is used to find the minimum spanning tree.
+    // It finds the subset of edges that includes every vertex such that the sum of the weights of the
+    // edges can be minimized.
     int spanningTree(int V, int E, int edges[][]){
         
         ArrayList<ArrayList<Pair>> adj=new ArrayList<>();

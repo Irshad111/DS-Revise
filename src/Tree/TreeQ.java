@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.TreeMap;
 
-public class TreeQ {
+public class  TreeQ {
 	// 1. count leaves in binary tree
 	private class Node {
 		Node left;
@@ -451,7 +451,7 @@ public class TreeQ {
 	    }
 	    printLeaves(node.right);
 	}
-	void printRight(Node node){
+	void printRight(Node node){ // in this we are not printing leave node
 	    if(node==null){
 	        return;
 	    }

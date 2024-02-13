@@ -66,7 +66,7 @@ public class LLQ {
 		Node fastptr = h;
 		Node slowptr = h;
 
-		while (fastptr.next != null && fastptr.next.next != null) {
+		while (fastptr!=null && fastptr.next != null) {
 
 			slowptr = slowptr.next;
 			fastptr = fastptr.next.next;

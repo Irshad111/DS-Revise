@@ -6,6 +6,9 @@ import java.util.Stack;
 public class TopologicalSort {
 
     // 3. topological sort
+    // Topological sort is a technique used in graph theory to order the vertices of a directed acyclic graph (DAG).
+    // It ensures that for every directed edge from vertex A to vertex B, vertex A comes before vertex B in the ordering.
+    // This is useful in scheduling problems, where tasks depend on the completion of other tasks.
     static int[] topoSort(ArrayList<ArrayList<Integer>> list, int N) {
         // add your code here
         Stack<Integer> stack = new Stack();

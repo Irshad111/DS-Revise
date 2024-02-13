@@ -42,7 +42,7 @@ public class Graph2 {
      */
 
 
-    // 8.floydwarshall
+    // 1.floydwarshall
     public static int[][] floydWarshall(int[][] mat, int n) {
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
@@ -54,7 +54,7 @@ public class Graph2 {
         return mat;
     }
 
-    // 9. find path exist or not
+    // 2. find path exist or not
 
     public static boolean pathExit(int[][] mat, int n, int sr, int sc, boolean visited[][]) {
         if (sr >= n || sc >= n || sc < 0 || sr < 0 || visited[sr][sc] || mat[sr][sc] == 0) {
@@ -73,7 +73,7 @@ public class Graph2 {
 
     }
 
-    // 10 . rotten oranges
+    // 3. rotten oranges
 
     public static int rottenOranges(int mat[][], int r, int c) {
         Queue<Pair> q = new LinkedList<>();
@@ -183,7 +183,7 @@ public class Graph2 {
         return (p.x == -1 && p.y == -1);
     }
 
-    // 11. min Cost path
+    // 4. min Cost path
     public static int minCostPath(int mat[][], int n) {
         int strg[][] = new int[n][n];
         for (int i = 0; i < n; i++) {
@@ -238,122 +238,7 @@ public class Graph2 {
         return (i >= 0 && j >= 0 && i < n && j < n);
     }
 
-    // 12. find no of islands
-
-    static int findIslands(ArrayList<ArrayList<Integer>> list, int N, int M) {
-
-        // Your code here
-        int count = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (list.get(i).get(j) == 1) {
-                    count += 1;
-                    dfs(list, i, j);
-                }
-            }
-        }
-        return count;
-
-    }
-
-    public static void dfs(ArrayList<ArrayList<Integer>> list, int i, int j) {
-        if (i < 0 || i >= list.size() || j < 0 || j >= list.get(0).size() || list.get(i).get(j) == 0) {
-            return;
-        }
-        list.get(i).set(j, 0);
-        dfs(list, i, j + 1);// left
-        dfs(list, i + 1, j);// down
-        dfs(list, i - 1, j);// up
-        dfs(list, i, j - 1);// right
-        dfs(list, i - 1, j - 1);// left up dig
-        dfs(list, i + 1, j - 1);// left down dig
-        dfs(list, i - 1, j + 1);// right up dig
-        dfs(list, i + 1, j + 1);// right down dig
-    }
-
-    // 13. find maximum of unit area
-
-    static int count1;
-
-    static int findAreaUtil(int N, int M, int g[][], boolean vis[][]) {
-        int max = 0;
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (g[i][j] == 1 && !vis[i][j]) {
-                    count1 = 0;
-                    dfs(g, vis, i, j);
-                    if (count1 > max) {
-                        max = count1;
-                    }
-                } else if (g[i][j] == 0) {
-                    vis[i][j] = true;
-                }
-            }
-        }
-        return max;
-
-    }
-
-    public static void dfs(int g[][], boolean vis[][], int i, int j) {
-        if (i < 0 || i >= g.length || j < 0 || j >= g[0].length || vis[i][j] == true || g[i][j] == 0) {
-            return;
-        }
-        vis[i][j] = true;
-        count1++;
-        dfs(g, vis, i, j + 1);// left
-        dfs(g, vis, i + 1, j);// down
-        dfs(g, vis, i - 1, j);// up
-        dfs(g, vis, i, j - 1);// right
-        dfs(g, vis, i - 1, j - 1);// left up dig
-        dfs(g, vis, i + 1, j - 1);// left down dig
-        dfs(g, vis, i - 1, j + 1);// right up dig
-        dfs(g, vis, i + 1, j + 1);// right down dig
-    }
-
-    // 14. is bipartite M-1 using bfs
-    public boolean isBipartite(int V, ArrayList<ArrayList<Integer>> adj) {
-        // Code here
-        boolean[] vis = new boolean[V];
-        int[] color = new int[V];
-        int maxColor = 1;
-        for (int v = 0; v < V; v++) {
-            if (vis[v]) {
-                continue;
-            }
-
-            Queue<Integer> q = new LinkedList<>();
-            q.add(v);
-
-            while (!q.isEmpty()) {
-                int rm = q.remove();
-
-                if (vis[rm]) {
-                    continue;
-                }
-                vis[rm] = true;
-                ArrayList<Integer> nbrs = adj.get(rm);
-
-                for (int u : nbrs) {
-                    if (color[rm] == color[u]) {
-                        color[u] += 1;
-                    }
-
-                    maxColor = Math.max(maxColor, color[u]);
-
-                    if (maxColor >= 2) {
-                        return false;
-                    }
-
-                    if (!vis[u]) {
-                        q.add(u);
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    // 15. find shorted path from 0,0 to destination
+    // 5. find shorted path from 0,0 to destination
     public static int shortedPath(int mat[][], int n, int m, int dr, int dc) {
         if (mat[0][0] != 1 || mat[dr][dc] != 1) {
             return -1;
@@ -400,7 +285,81 @@ public class Graph2 {
 
     }
 
-    //16. no of palindromic path in matrix
+
+    // 6. find no of islands
+
+    static int findIslands(ArrayList<ArrayList<Integer>> list, int N, int M) {
+
+        // Your code here
+        int count = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (list.get(i).get(j) == 1) {
+                    count += 1;
+                    dfs(list, i, j);
+                }
+            }
+        }
+        return count;
+
+    }
+
+    public static void dfs(ArrayList<ArrayList<Integer>> list, int i, int j) {
+        if (i < 0 || i >= list.size() || j < 0 || j >= list.get(0).size() || list.get(i).get(j) == 0) {
+            return;
+        }
+        list.get(i).set(j, 0);
+        dfs(list, i, j + 1);// left
+        dfs(list, i + 1, j);// down
+        dfs(list, i - 1, j);// up
+        dfs(list, i, j - 1);// right
+        dfs(list, i - 1, j - 1);// left up dig
+        dfs(list, i + 1, j - 1);// left down dig
+        dfs(list, i - 1, j + 1);// right up dig
+        dfs(list, i + 1, j + 1);// right down dig
+    }
+
+    // 7. find maximum of unit area
+
+    static int count1;
+
+    static int findAreaUtil(int N, int M, int g[][], boolean vis[][]) {
+        int max = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (g[i][j] == 1 && !vis[i][j]) {
+                    count1 = 0;
+                    dfs(g, vis, i, j);
+                    if (count1 > max) {
+                        max = count1;
+                    }
+                } else if (g[i][j] == 0) {
+                    vis[i][j] = true;
+                }
+            }
+        }
+        return max;
+
+    }
+
+    public static void dfs(int g[][], boolean vis[][], int i, int j) {
+        if (i < 0 || i >= g.length || j < 0 || j >= g[0].length || vis[i][j] == true || g[i][j] == 0) {
+            return;
+        }
+        vis[i][j] = true;
+        count1++;
+        dfs(g, vis, i, j + 1);// left
+        dfs(g, vis, i + 1, j);// down
+        dfs(g, vis, i - 1, j);// up
+        dfs(g, vis, i, j - 1);// right
+        dfs(g, vis, i - 1, j - 1);// left up dig
+        dfs(g, vis, i + 1, j - 1);// left down dig
+        dfs(g, vis, i - 1, j + 1);// right up dig
+        dfs(g, vis, i + 1, j + 1);// right down dig
+    }
+
+
+    //8. no of palindromic path in matrix
     static int res = 0;
 
     public static void makeString(char[][] mat, int cr, int cc, int er, int ec, String ans) {
@@ -432,7 +391,7 @@ public class Graph2 {
         return true;
     }
 
-    // 17 travelling salesman problem
+    // 9. travelling salesman problem
     public static void main(String[] args) {
 
 
@@ -475,106 +434,6 @@ public class Graph2 {
         return ans;
     }
 
-    //18. M1- m coloring problem (think like n queen using backtracking ) M2 is best using bfs
-
-    //public static void main (String[] args)
-    {
-        //code
-        Scanner sc = new Scanner(System.in);
-        int t = sc.nextInt();
-        while (t-- > 0) {
-            int V = sc.nextInt();
-            int m = sc.nextInt();
-            int e = sc.nextInt();
-            int[][] graph = new int[V][V];
-            for (int i = 1; i <= e; i++) {
-                int a = sc.nextInt();
-                int b = sc.nextInt();
-                graph[a - 1][b - 1] = 1;
-                graph[b - 1][a - 1] = 1;
-            }
-            int color[] = new int[V];
-            if (graphColor(graph, m, color, 0, V)) {
-                System.out.println("1");
-            } else {
-                System.out.println("0");
-            }
-        }
-
-    }
-
-    public static boolean graphColor(int graph[][], int m, int[] color, int v, int V) {
-        if (v == V) {
-            return true;
-        }
-        for (int c = 1; c <= m; c++) {
-
-            if (isSafe(graph, v, color, c, V)) {
-                color[v] = c;
-                if (graphColor(graph, m, color, v + 1, V)) {
-                    return true;
-                }
-                color[v] = 0;
-            }
-        }
-        return false;
-
-    }
-
-    public static boolean isSafe(int graph[][], int v, int[] color, int c, int V) {
-        for (int i = 0; i < V; i++) {
-            if (graph[v][i] == 1 && color[i] == c) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    //M2-bfs
-    public boolean graphColoring(boolean graph[][], int m, int n) {
-        // Your code here
-        boolean[] vis = new boolean[n];
-        int[] color = new int[n];
-        int maxColor = 1;
-        Arrays.fill(color, 1);
-
-        for (int v = 0; v < n; v++) {
-            if (vis[v]) {
-                continue;
-            }
-
-            Queue<Integer> q = new LinkedList<>();
-            q.add(v);
-            while (!q.isEmpty()) {
-                int rm = q.remove();
-
-                // for self loop
-                if (graph[rm][rm]) {
-                    return false;
-                }
-
-                if (vis[rm]) {
-                    continue;
-                }
-                vis[rm] = true;
-                for (int i = 0; i < n; i++) {
-                    if (graph[i][rm]) {
-                        if (color[rm] == color[i]) {
-                            color[i] = color[i] + 1;
-                        }
-                        maxColor = Math.max(color[i], maxColor);
-                        if (maxColor > m) {
-                            return false;
-                        }
-                        if (!vis[i]) {
-                            q.add(i);
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }
 
 
 }

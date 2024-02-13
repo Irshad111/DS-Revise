@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
+    //Dijkstra’s algorithm is known for its simplicity, efficiency, and effectiveness in finding shortest
+    // paths in graphs with non-negative edge weights. It employs a greedy approach, selecting the node with
+    // the smallest tentative distance at each step and updating the shortest path distances accordingly.
      int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
     {
         boolean[] vis = new boolean[V];

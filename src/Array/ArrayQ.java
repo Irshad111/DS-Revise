@@ -7,8 +7,8 @@ public class ArrayQ {
 		System.out.println(-5%5);
 		}
 	public static int[] rotate(int[] arr,int r) {
-		if(r>=arr.length) {
-			r=r%arr.length;
+		if(r>=arr.length || r<0) {
+			r=(r+ arr.length)%arr.length;
 		}
 		int []ans=new int[arr.length];
 		for(int i=0;i<arr.length;i++) {
@@ -40,8 +40,7 @@ public class ArrayQ {
 			if(votes==0) {
 				candidate=arr[i];
 				votes=1;
-			}
-			else {
+			}else {
 			if(candidate==arr[i])
 				votes++;
 			else
