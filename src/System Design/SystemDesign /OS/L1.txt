@@ -1,0 +1,8 @@
+Completely Fair Scheduler - https://www.linuxjournal.com/node/10267
+
+OS Lecture Notes - https://www.cse.iitb.ac.in/~mythili/os/
+
+OS Lecture Notes 2 - https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/
+
+CPU Scheduling Algorithms - https://codepen.io/faso/pen/zqWGQW
+
