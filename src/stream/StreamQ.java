@@ -24,6 +24,19 @@ public class StreamQ {
         int a=1;
         long count=Arrays.stream(arr).filter(i->i==a).count();
         System.out.println(count);
+        List<String> list =Arrays.asList("a","b");// resturn fixed size list we can not remove and add but we can change element
+       // list.add("c"); gives UnsupportedOperationException at run time
+        //list.remove(); gives UnsupportedOperationException
+        list.set(0,"c"); //it,s possible
+        System.out.println(list);
+
+        List<String> list1=List.of("a","b"); // return unmodifiable list
+        // list1.add("c"); gives UnsupportedOperationException at run time
+        //list1.remove(); gives UnsupportedOperationException
+        //list1.set(0,"c"); gives UnsupportedOperationException
+        System.out.println(list1);
+
+
 
 
 
