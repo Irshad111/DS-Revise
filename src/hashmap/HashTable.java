@@ -42,26 +42,30 @@ public class HashTable<K, V> {
 
 		HTPair np = new HTPair(key, value);
 		if (bucket == null) {
+			// If the bucket is null, create a new linked list and add the pair
 			bucket = new LinkedList<>();
 			bucket.addLast(np);
 			this.bucketArray[bi] = bucket;
 			this.size++;
 		} else {
+			// If the bucket is not null, check if the key already exists
 			int findidx = bucket.find(np);
 			if (findidx == -1) {
+				// If the key doesn't exist, add the pair to the end of the linked list
 				bucket.addLast(np);
 				this.size++;
 			} else {
+				// If the key exists, update the value of the existing pair
 				HTPair pair = bucket.getAt(findidx);
 				pair.value = value;
 			}
-
 		}
-		double lamda=this.size*(0.1)/this.bucketArray.length; 
-		if(lamda>2) {
+
+		// Check if rehashing is required
+		double lambda = this.size * (0.1) / this.bucketArray.length;
+		if (lambda > 2) {
 			this.rehash();
 		}
-
 	}
 
 	private void rehash() throws Exception {

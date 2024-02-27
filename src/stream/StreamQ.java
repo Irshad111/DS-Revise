@@ -35,6 +35,11 @@ public class StreamQ {
         //list1.remove(); gives UnsupportedOperationException
         //list1.set(0,"c"); gives UnsupportedOperationException
         System.out.println(list1);
+        String s = "  abc  def\t";
+
+        s = s.strip();
+
+        System.out.println(s);
 
 
 
