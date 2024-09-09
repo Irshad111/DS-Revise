@@ -54,6 +54,7 @@ public class Employee {
 		hs.add(new Employee(1, "irshad"));
 		hs.add(new Employee(2, "khan"));
 		hs.add(new Employee(3, "sherani"));
+		hs.add(new Employee(1, "irshad"));
 		System.out.println(hs);
 
 	}

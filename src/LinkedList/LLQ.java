@@ -88,6 +88,7 @@ public class LLQ {
 			prev = curr;
 			curr = ahead;
 		}
+		head.next = null;
 		head = prev;
 		return head;
 	}

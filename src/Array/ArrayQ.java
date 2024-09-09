@@ -26,7 +26,7 @@ public class ArrayQ {
 		for(int i=0;i<arr.length;i++) {
 			cur_max=Math.max(arr[i],cur_max+arr[i]);
 			if(cur_max>glob_max) {
-				cur_max=glob_max;
+				glob_max=cur_max;
 			}
 		}
 		return glob_max;
